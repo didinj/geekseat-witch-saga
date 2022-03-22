@@ -24,9 +24,9 @@ public class WitchSagaController {
 
     // Processing find the average killed villagers based on given persons age and death year
     @RequestMapping("/submit")
-    public String submit(@RequestParam Integer maxYear, @RequestParam Integer firstPersonAge, @RequestParam Integer firstPersonDeath, @RequestParam Integer secondPersonAge, @RequestParam Integer secondPersonDeath) {
+    public String submit(@RequestParam Integer firstPersonAge, @RequestParam Integer firstPersonDeath, @RequestParam Integer secondPersonAge, @RequestParam Integer secondPersonDeath) {
         // load hashmap of year and sum of killed villagers based on year of villager solve the problem
-        HashMap<Integer, Integer> yearAndKilledVillagers = helper.generateYearAndKilledVillagers(maxYear);
+        HashMap<Integer, Integer> yearAndKilledVillagers = helper.generateYearAndKilledVillagers();
 
         // calculate birth year
         int firstPersonBirth = helper.getBirthYear(firstPersonAge, firstPersonDeath);

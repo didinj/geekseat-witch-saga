@@ -37,7 +37,6 @@ public class WitchSagaControllerTest {
     @Test
     public void processTheAverageKills() throws Exception {
         LinkedMultiValueMap<String, String> requestParams = new LinkedMultiValueMap<>();
-        requestParams.add("maxYear", String.valueOf(20));
         requestParams.add("firstPersonAge", String.valueOf(10));
         requestParams.add("firstPersonDeath", String.valueOf(12));
         requestParams.add("secondPersonAge", String.valueOf(13));

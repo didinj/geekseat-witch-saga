@@ -10,7 +10,7 @@ public class Helper {
         The number of years is limited by the last year when villagers solve the problem.
         This method will return as a hashmap type.
     */
-    public static HashMap<Integer, Integer> generateYearAndKilledVillagers(int maxYear) {
+    public static HashMap<Integer, Integer> generateYearAndKilledVillagers() {
         // the initial variable of fibonacci sequence
         int firstTerm = 1, secondTerm = 1;
         // collecting the villagers who are killed every year
@@ -19,7 +19,7 @@ public class Helper {
         HashMap<Integer, Integer> yearAndKilledVillagers = new HashMap<Integer, Integer>();
 
         // loop through the set maximum year
-        for (int i = 1; i <= maxYear; ++i) {
+        for (int i = 1; i <= 100; ++i) {
             /* add the initial first term as the first number
                and the second term as the second number in the sequence */
             if (i == 1) {
