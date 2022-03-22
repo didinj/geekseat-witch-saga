@@ -23,7 +23,7 @@ public class WitchSagaControllerTest {
     @Autowired
     private MockMvc mockMvc;
 
-    // Get the home page
+    // Test the home controller
     @Test
     public void main() throws Exception {
         ResultActions resultActions = mockMvc.perform(get("/"))
@@ -34,6 +34,8 @@ public class WitchSagaControllerTest {
         ModelAndView mv = mvcResult.getModelAndView();
     }
 
+    // Test submit controller with given input values age A=10, death A=12, age B=13, death B=17
+    // So it will give the result as parameters for next result controller
     @Test
     public void processTheAverageKills() throws Exception {
         LinkedMultiValueMap<String, String> requestParams = new LinkedMultiValueMap<>();
@@ -46,6 +48,10 @@ public class WitchSagaControllerTest {
                 .andExpect(status().is3xxRedirection());
     }
 
+    // Test result controller with the result parameter from submit controller
+    // 2 = death A - age A, 4 = death B - age B, 2 = number killed in year 2,
+    // 7 = number killed in year 4
+    // 4.5 = average killed in those 2 years (2x7)/2
     @Test
     public void getResult() throws Exception {
         mockMvc.perform(get("/result/2/4/2/7/4.5"))
