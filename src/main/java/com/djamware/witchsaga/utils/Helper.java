@@ -1,46 +1,43 @@
 package com.djamware.witchsaga.utils;
 
-import java.util.ArrayList;
+import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.util.HashMap;
-import java.util.List;
 
 public class Helper {
     /*
         The rules that witches decided to kill villagers each year were based on the Fibonacci sequence.
-        The number of years is limited by the last year when villagers solve the problem.
-        This method will return as a hashmap type.
+        The number of years is limited by the birth of given person.
+        This method will return as a number of killed villagers as BigInteger type.
     */
-    public static HashMap<Integer, Integer> generateYearAndKilledVillagers() {
-        // the initial variable of fibonacci sequence
-        int firstTerm = 1, secondTerm = 1;
-        // collecting the villagers who are killed every year
-        List<Integer> tempNumbers = new ArrayList<Integer>();
-        // collecting year and the sum of killed villagers each year
-        HashMap<Integer, Integer> yearAndKilledVillagers = new HashMap<Integer, Integer>();
+    public static BigInteger getKilledOnYear(int birth) {
+        // initial variable that hold a number of killed villagers
+        BigInteger killedVillagers = new BigInteger("0");
 
-        // loop through the set maximum year
-        for (int i = 1; i <= 100; ++i) {
-            /* add the initial first term as the first number
-               and the second term as the second number in the sequence */
+        // initial value for generating fibonacci sequence
+        long firstTerm = 1, secondTerm = 1;
+
+        // check if birth year less than the year of witch take control
+        if(birth < 1 || birth > 94)
+            return new BigInteger("-1");
+
+        // loop to generate fibonacci sequence then sum the killed villagers
+        for (int i = 1; i <= birth; i++) {
             if (i == 1) {
-                tempNumbers.add(firstTerm);
+                killedVillagers = killedVillagers.add(new BigInteger(String.valueOf(firstTerm)));
             } else if (i == 2) {
-                tempNumbers.add(secondTerm);
+                killedVillagers = killedVillagers.add(new BigInteger(String.valueOf(secondTerm)));
             } else {
-                // the sum of the first term and a second term that will be added to the sequence
-                int nextTerm = firstTerm + secondTerm;
-                firstTerm = secondTerm; // this is how Fibonacci works, the first term replaced with the second term
-                secondTerm = nextTerm; // and the second term replace with the sum of both
-                tempNumbers.add(nextTerm);
+                long nextTerm = firstTerm + secondTerm;
+                firstTerm = secondTerm;
+                secondTerm = nextTerm;
+                killedVillagers = killedVillagers.add(new BigInteger(String.valueOf(nextTerm)));
             }
-
-            // sums the numbers inside the sequence so it will be the sum of killed villagers in a year
-            int sums = tempNumbers.stream().mapToInt(Integer::intValue).sum();
-            // insert the year and the sum of killed villagers to the hashmap
-            yearAndKilledVillagers.put(i, sums);
+//            System.out.println(i + ": " + killedVillagers);
         }
 
-        return yearAndKilledVillagers;
+        // maximum year is 94, otherwise it will show error numbers of killed villagers
+        return killedVillagers;
     }
 
     // calculate the birth year by subtracting death year with age
@@ -58,10 +55,15 @@ public class Helper {
         return yearAndVillagers.get(birth);
     }
 
-    // find average killed by birth year of two people whose age of death and year of death are known
-    public static Double averageKilled(double firstKilledNumbers, double secondKilledNumbers) {
-        if (firstKilledNumbers < 1 || secondKilledNumbers < 1)
-            return -1.0;
-        return (double) ((firstKilledNumbers + secondKilledNumbers) / 2);
+    // find average killed by birth year of two people whose age of death and year
+    // of death are known in biginteger type
+    public static BigDecimal averageKilled(BigInteger firstKilledNumbers, BigInteger secondKilledNumbers) {
+        if (firstKilledNumbers.signum() == -1 || secondKilledNumbers.signum() == -1)
+            return BigDecimal.valueOf(-1);
+        BigDecimal fkn = new BigDecimal(firstKilledNumbers);
+        BigDecimal skn = new BigDecimal(secondKilledNumbers);
+        BigDecimal avg = fkn.add(skn).divide(BigDecimal.valueOf(2));
+
+        return avg;
     }
 }
